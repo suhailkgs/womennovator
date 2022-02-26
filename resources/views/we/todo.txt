@@ -1,0 +1,15 @@
+TODO:
+-----
+1.  ✅  Add required to fields in event-manage.blade.php for 'normal-events', 'round-table' and 'we-pitch'.
+2.  ✅  Show 'normal-events', 'round-table events', 'we-pitch events' in community-event-page.blade.php
+3.  ✅  Show all events in event.blade.php
+4.  ✅  Differentiate 'upcoming' and 'past' events.
+        Hint:   if end_date < today => past event
+                if start_date >= today => upcoming event
+5.  ✅  User can't apply to 'past events'
+6.  For Upcoming Events, click on event/RSVP => event details => apply
+7.	✅  In resource we need image and pdf upload option
+8.	✅  Remove Jury and Faces from Normal Event Admin
+9.	Creater can delete their posts, edit their posts 
+10. Show creator's post on empty-community page after the form
+
