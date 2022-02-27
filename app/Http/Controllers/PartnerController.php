@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Partner;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
-use DB;
-use Redirect;
+use Illuminate\Support\Facades\DB;
+
 
 class PartnerController extends Controller
 {

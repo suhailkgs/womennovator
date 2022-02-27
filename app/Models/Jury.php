@@ -5,39 +5,40 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class Jury extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
-         'name',
-         'email',
-         'password',
-         'mobile_number',
-         'designation',
-         'photo',
-         'fblink',
-         'linkedin',
-         'company',
-         'instagram',
-         'state_id',
-         'city_id',
-         'sector_id',
-         'industry',
-         'description',
-         'Ref_by',
-         'status'
-     ];
-     protected $hidden = [
+        'name',
+        'email',
+        'password',
+        'mobile_number',
+        'designation',
+        'photo',
+        'fblink',
+        'linkedin',
+        'company',
+        'instagram',
+        'state_id',
+        'city_id',
+        'sector_id',
+        'industry',
+        'description',
+        'Ref_by',
+        'status'
+    ];
+    protected $hidden = [
         'password',
         'remember_token',
     ];
- public function getPhotoAttribute($value)
+    public function getPhotoAttribute($value)
     {
         if ($value) {
             return url('backEnd/juryimage/' . $value);
         } else {
-              return url('backEnd/img/active.png' . $value);
+            return url('backEnd/img/active.png' . $value);
         }
     }
     /**

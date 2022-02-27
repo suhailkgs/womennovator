@@ -59,7 +59,7 @@
                   <li><a href="#"><span class="f-icon">@</span>contact@womennovators.com</a></li>
                   <!-- <li><a href="#"><span class="f-icon">#</span> (+91)- 9315854688</a></li> -->
                   <li><a href="{{url('/we/contact-us')}}">Contact Us</a></li>
-                  <li><a href="#">Become A Mentor</a></li>
+                  <li><a href="{{url('/we/mentorship')}}">Become A Mentor</a></li>
                </ul>
             </div>
          </div>

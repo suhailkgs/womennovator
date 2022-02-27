@@ -301,6 +301,11 @@ class JuryController extends Controller
         ]);
         
         if ($check) {
+
+            DB::table('community_and_jury')->where(['jury_id' => $id])->update([
+                "status" => 1
+            ]);
+
             $jury_detail = ['jury_name' => $jury_name, 'temp_id' => $temp_id];    // This will send to view
             $provider_detail = ['jury_name' => $jury_name,'provider_name' => $provider_name, 'temp_id' => $temp_id];    // This will send to view
 

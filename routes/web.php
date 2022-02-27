@@ -59,7 +59,8 @@ use App\Http\Controllers\Admin\MaskController;
 
 use App\Http\Controllers\Admin\BlogcommentController;
 use App\Http\Controllers\SummitController;
-use App\Http\Controllers\PartnerController;
+// use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\AdminSummitController;
 use App\Http\Controllers\Admin\GlobalsummitController;
 use App\Http\Controllers\Admin\AwardeeController;
@@ -208,6 +209,10 @@ Route::group(['middleware' => 'front_user_auth'], function () {
 
   // * Add Jury Memeber
   Route::post("/we/add_jury_member", [WeController::class, "add_jury_member"])->name("we.add_jury_member");
+
+  // * Add Partner
+  Route::post("/we/add_partner", [WeController::class, "add_partner"])->name("we.add_partner");
+
 });
 
 
@@ -518,6 +523,12 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/jury/search',  [JuryController::class, 'search']);
   Route::post('/jury/approve/{id}',  [JuryController::class, 'approve'])->name("jury.approve");
 
+  // * Partner routes
+  Route::resource('/partner', PartnerController::class);
+  // Route::post('/juryexcel/store', [PartnerController::class, 'juryexcelStore']);
+  Route::post('/partner/search',  [PartnerController::class, 'search']);
+  Route::post('/partner/approve/{id}',  [PartnerController::class, 'approve'])->name("partner.approve");
+
 
   //Marking Schema routes
   Route::resource('/markingschema', MarkingschemaController::class);
@@ -588,6 +599,10 @@ Route::group(['prefix' => 'admin'], function () {
 // * Jury furhter details
 Route::get('we/jury_details_form/{temp_id}',[WeController::class, 'jury_details_form']);
 Route::post('we/jury_details_update',[WeController::class, 'jury_details_update']);
+
+// * Partner furhter details
+Route::get('we/partner_details_form/{temp_id}',[WeController::class, 'partner_details_form']);
+Route::post('we/partner_details_update',[WeController::class, 'partner_details_update']);
 
 
 Route::group(['prefix' => 'jury'], function () {

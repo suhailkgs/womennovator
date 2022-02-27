@@ -10,6 +10,13 @@ class Partner extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
+    public function sector()
+    {
+        return $this->belongsTo('App\Models\Sector');
+    }
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City');
+    }
   
 }

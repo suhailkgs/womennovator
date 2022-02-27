@@ -869,7 +869,7 @@ class WeController extends Controller
         }
     }
 
-    // * Add Jurt Memeber
+    // * Add Jury Memeber
     public function add_jury_member(Request $request)
     {
 
@@ -891,13 +891,22 @@ class WeController extends Controller
             $email = trim($request->jury_email);
             $linkedin = trim($request->jury_linkedin);
 
-            $res = DB::table('juries')->insert([
+            $jury_insert_id = DB::table('juries')->insertGetId([
                 "name" => $name,
                 "email" => $email,
                 "linkedin" => $linkedin,
                 "provider_id" => $comm_creator->user_id,
                 "status" => 0
             ]);
+
+            if ($jury_insert_id) {
+                $res = DB::table('community_and_jury')->insert([
+                    "jury_id" => $jury_insert_id,
+                    "community_id" => $com_id,
+                    "status" => 0
+                ]);
+            }
+
             if ($res) {
                 return response()->json([
                     'status' => 'success',
@@ -997,6 +1006,124 @@ class WeController extends Controller
             return view("backEnd.jury.after_form_fillup", ['success' => "Form Filleup Successfull"]);
         } else {
             return view("backEnd.jury.after_form_fillup", ['fail' => "Form Fillup Failed"]);
+        }
+    }
+
+    // * Add Partner Memeber
+    public function add_partner(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "poc_name" => "required",
+            "poc_email" => "required|email|unique:partners,poc_email",
+            "business_name" => "required",
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error' => $validator->errors()
+            ]);
+        } else {
+            $com_id = $request->com_id;
+            $comm_creator = DB::table('accepted_communities')->where(['id' => $com_id])->select('user_id')->first();
+
+            $poc_name = trim($request->poc_name);
+            $poc_email = trim($request->poc_email);
+            $business_name = trim($request->business_name);
+
+            $res = DB::table('partners')->insert([
+                "poc_name" => $poc_name,
+                "poc_email" => $poc_email,
+                "business_name" => $business_name,
+                "provider_id" => $comm_creator->user_id,
+                "status" => 0
+            ]);
+            if ($res) {
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'Partner Added Successfully. Pending for Admin Approval.'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'fail',
+                    'msg' => 'Partner cannot be added.'
+                ]);
+            }
+        }
+    }
+
+    // * Partner Futher Details
+    public function partner_details_form(Request $request, $temp_id)
+    {
+        $partner_data = DB::table('partners')->where(['temp_id' => $temp_id])->select("is_fillup")->first();
+        if ($partner_data) {
+            if ($partner_data->is_fillup == 1) {
+                return view("backEnd.partner.after_form_fillup", ['success2' => "Form already Filled up"]);
+            }
+        } else {
+            return view("backEnd.partner.after_form_fillup", ['success2' => "Form already Filled up"]);
+        }
+
+
+        $states = DB::table('state_and_city')->select('state_id', 'state_name')->distinct()->orderby('state_id')->get();
+        $sector = Sector::latest()->get();
+        $data = [
+            'states' => $states,
+            'sector' => $sector,
+            'temp_id' => $temp_id
+        ];
+        return view("backEnd.partner.partner_details_fillup", $data);
+    }
+
+    // * Partner Futher Details update
+    public function partner_details_update(Request $request)
+    {
+        if ($request->temp_id == null) {
+            return redirect('/');
+        }
+
+        $validate = $request->validate([
+            "mobile" => "required",
+            "logo" => "required",
+            "contribution" => "required",
+            "state" => "required",
+            "city" => "required",
+        ]);
+
+        $mobile = $request->mobile;
+        $contribution = $request->contribution;
+        $partnership_agreement = $request->partnership_agreement;
+        $program_updates = $request->program_updates;
+        $social_handles = $request->social_handles;
+        $state = $request->state;
+        $city = $request->city;
+        $temp_id = $request->temp_id;
+
+        if ($request->hasfile('logo')) {
+            $image = $request->file('logo');
+            $extension = $image->extension();
+            $logo = uniqid("", true) . "." . $extension;
+        }
+
+        $res = DB::table('partners')->where(['temp_id' => $temp_id])->update([
+            "mobile" => $mobile,
+            "contribution" => $contribution,
+            "logo" => $logo,
+            "partnership_agreement" => $partnership_agreement,
+            "program_updates" => $program_updates,
+            "social_handles" => $social_handles,
+            "state_id" => $state,
+            "city_id" => $city,
+            "temp_id" => null,
+            "is_fillup" => 1
+        ]);
+
+        if ($res) {
+            if ($logo) {
+                $image->move('we/partner/', $logo);
+            }
+            return view("backEnd.partner.after_form_fillup", ['success' => "Form Fillup Successfull"]);
+        } else {
+            return view("backEnd.partner.after_form_fillup", ['fail' => "Form Fillup Failed"]);
         }
     }
 }
