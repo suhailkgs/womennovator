@@ -18,8 +18,8 @@
     <ul class="nav  nav-pills-circle">
       <li class="nav-item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Settings"
         aria-describedby="tooltip365540">
-        <a class="desktop-logo logo-light active" href="{{ route('admin.dashboard') }}" class="text-center mx-auto"><img
-            src="{{ url('backEnd/img/Womennovator.png') }}" class="main-logo"></a>
+        <a class="desktop-logo logo-light active" href="{{ route('admin.dashboard') }}"
+          class="text-center mx-auto"><img src="{{ url('backEnd/img/Womennovator.png') }}" class="main-logo"></a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="top" title="" data-original-title="home">
         <a class="nav-link text-center m-2" href="{{ route('admin.dashboard') }}">
@@ -59,8 +59,8 @@
       @endif
       @if ($role == 12)
         <li class="slide">
-          <a class="side-menu__item" href="{{ url('admin/home') }}"><i class="side-menu__icon fe fe-airplay"></i><span
-              class="side-menu__label">Dashboard</span></a>
+          <a class="side-menu__item" href="{{ url('admin/home') }}"><i
+              class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Dashboard</span></a>
         </li>
         <li class="slide">
           <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
@@ -75,8 +75,8 @@
       @endif
       @if ($role == 8)
         <li class="slide">
-          <a class="side-menu__item" href="{{ url('admin/home') }}"><i class="side-menu__icon fe fe-airplay"></i><span
-              class="side-menu__label">Dashboard</span></a>
+          <a class="side-menu__item" href="{{ url('admin/home') }}"><i
+              class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Dashboard</span></a>
         </li>
         <li class="slide">
           <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
@@ -124,8 +124,8 @@
       @endif
       @if ($role == 1 || $role == 2 || $role == 3)
         <li class="slide">
-          <a class="side-menu__item" href="{{ url('admin/home') }}"><i class="side-menu__icon fe fe-airplay"></i><span
-              class="side-menu__label">Dashboard</span></a>
+          <a class="side-menu__item" href="{{ url('admin/home') }}"><i
+              class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Dashboard</span></a>
         </li>
         <li class="slide">
           <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
@@ -185,7 +185,8 @@
           <ul class="slide-menu">
             <li><a class="slide-item" href="{{ url('admin/community/create') }}">Add Communitiy</a></li>
             <li><a class="slide-item" href="{{ url('admin/community') }}">Pending Request</a></li>
-            <li><a class="slide-item" href="{{ route('admin.accepted_request') }}">Accepted Request List</a></li>
+            <li><a class="slide-item" href="{{ route('admin.accepted_request') }}">Accepted Request List</a>
+            </li>
           </ul>
         </li>
         <li class="slide">
@@ -230,6 +231,7 @@
 
           </ul>
         </li>
+
         <li class="slide">
           <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
               class="side-menu__icon fe fe-users"></i><span class="side-menu__label">Jury</span><i
@@ -240,6 +242,19 @@
             <li><a class="slide-item" href="{{ url('admin/jury') }}">Jury Approved List</a></li>
           </ul>
         </li>
+
+        <li class="slide">
+          <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
+              class="side-menu__icon fe fe-users"></i><span class="side-menu__label">Partner</span><i
+              class="angle fe fe-chevron-down"></i></a>
+          <ul class="slide-menu">
+            <li><a class="slide-item" href="{{ url('admin/partner/create') }}">Add Partner</a></li>
+            <li><a class="slide-item" href="{{ url('admin/partner?pending=true') }}">Partner Pending List</a>
+            </li>
+            <li><a class="slide-item" href="{{ url('admin/partner') }}">Partner Approved List</a></li>
+          </ul>
+        </li>
+
         <li class="slide">
           <a class="side-menu__item" data-toggle="slide" href="index.htm#"><i
               class="side-menu__icon fa fa-users"></i><span class="side-menu__label">Faces</span><i
@@ -274,16 +289,19 @@
           <ul class="slide-menu">
             {{-- <li><a class="slide-item" href="{{ url('admin/event/create') }}">Add Event</a></li>
             <li><a class="slide-item" href="{{ url('admin/event') }}">Event List</a></li> --}}
-            <li><a class="slide-item" href="{{ route('admin.normal_event_add_form') }}">Add Normal Event</a></li>
+            <li><a class="slide-item" href="{{ route('admin.normal_event_add_form') }}">Add Normal Event</a>
+            </li>
             <li><a class="slide-item" href="{{ route('admin.list_normal_event') }}">Normal Event List</a></li>
 
             <li><a class="slide-item" href="{{ route('admin.round_table_add_form') }}">Add Round Table Event</a>
             </li>
-            <li><a class="slide-item" href="{{ route('admin.list_round_table') }}">Round Table Event List</a></li>
+            <li><a class="slide-item" href="{{ route('admin.list_round_table') }}">Round Table Event List</a>
+            </li>
 
             <li><a class="slide-item" href="{{ route('admin.we_pitch_add_form') }}">Add We-pitch Table Event</a>
             </li>
-            <li><a class="slide-item" href="{{ route('admin.list_we_pitch') }}">We-pitch Table Event List</a></li>
+            <li><a class="slide-item" href="{{ route('admin.list_we_pitch') }}">We-pitch Table Event List</a>
+            </li>
 
           </ul>
         </li>

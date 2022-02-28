@@ -98,13 +98,18 @@
               </div>
             </div>
           </div>
-
-
+         
+         
           <div class="row">
             <div class="col-sm-7">
-              @if ($all_post)
+              @if($all_post->count() == 0)
+              
+              <div class="row">
+                <p style="text-align: center;">This Community has no post yet.</p>
+              </div>
+              @else
                 @foreach ($all_post as $post)
-                  <a href="#">
+                  <a href="#"> 
                     <div class="post to_animate" data-animation="fadeInUp">
                       <div>
                         <div class="community-ban-cintent">
@@ -114,7 +119,7 @@
                           <div class="female-user-content">
                             <h2>{{ $community->name }}</h2>
                             <ul class="communi-list">
-                              <li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i> 19 mins</a></li>
+                              <li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i> 18 mins</a></li>
                             </ul>
                           </div>
                         </div>
@@ -216,6 +221,7 @@
 
             <div class="col-sm-5"></div>
           </div>
+        
 
         </div>
 
@@ -281,7 +287,11 @@
 
           <div class="row">
             <div class="col-sm-7">
-              @if ($all_poll)
+              @if ($all_poll-> count() == 0)
+              <div class="row">
+                <p style="text-align: center;">No Polls are there</p>
+              </div>
+              @else
                 @foreach ($all_poll as $poll)
                   <div class="post to_animate" data-animation="fadeInUp">
                     <div class="post-title">

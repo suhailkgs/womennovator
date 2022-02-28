@@ -55,7 +55,7 @@
     <div class="container">
       <div class="row">
         <!-- <div class="col-sm-1 to_animate" data-animation="fadeInUp">
-                                            </div> -->
+                                                  </div> -->
         <div class="col-sm-9 to_animate" data-animation="fadeInRight">
           <div class="tab-content tab-content-no">
             <div role="tabpanel" id="basic-details" class="mommunity-main tab-pane post-main fade in active">
@@ -258,27 +258,35 @@
       <center>
         <h1>Add Partner</h1>
       </center>
+      <div id="success_msg_partner"></div>
+      <div id="fail_msg_partner"></div>
       <br>
-      <form action="#">
+      <form id="partner_form">
+        @csrf
         <div class="modal-input">
           <label for="POC_name">
             <p>Enter partner POC name*</p>
           </label>
-          <input class="add-modal-input" type="text" name="POC_name" id="POC_name">
+          <input class="add-modal-input" type="text" name="poc_name" id="poc_name">
+          <p id="poc_name_error" class="field_error"></p>
+          <p id="poc_name_error" class="field_error"></p>
         </div>
 
         <div class="modal-input">
           <label for="POC_email">
-            <p>Enter POC's email id</p>
+            <p>Enter POC's email id*</p>
           </label>
-          <input class="add-modal-input" type="text" name="POC_email" id="POC_email">
+          <input class="add-modal-input" type="text" name="poc_email" id="poc_email">
+          <p id="poc_email_error" class="field_error"></p>
         </div>
         <div class="modal-input">
           <label for="Business_name">
-            <p>Business Name</p>
+            <p>Business Name*</p>
           </label>
-          <input class="add-modal-input" type="text" name="Business_name">
+          <input class="add-modal-input" type="text" name="business_name" id="business_name">
+          <p id="business_name_error" class="field_error"></p>
         </div>
+        <input type="hidden" name="com_id" id="com_id" value="{{ $community->id }}">
         <center> <button>Add</button></center>
       </form>
 
@@ -320,7 +328,7 @@
           <input class="add-modal-input" type="text" name="jury_linkedin" id="jury_linkedin">
           <p id="jury_linkedin_error" class="field_error"></p>
         </div>
-        <input type="hidden" name="com_id" id="com_id" value="{{$community->id}}">
+        <input type="hidden" name="com_id" id="com_id" value="{{ $community->id }}">
         <center> <button type="submit">Add</button></center>
       </form>
 
@@ -432,33 +440,38 @@
 
     }
 
-    function openPartnerModal() {
-      let partnerModal = document.getElementById("add-partner-modal");
-      // document.body.style.overflow = "hidden";
-      partnerModal.classList.add("show");
-      partnerModal.classList.remove("hidden")
-    }
-
-    function closePartnerModal() {
+    function closeJuryModal() {
       $('#success_msg').html('');
       $('#fail_msg').html('');
-      document.body.style.overflow = "auto";
-      let partnerModal = document.getElementById("add-partner-modal");
-
-      partnerModal.classList.add("hidden");
-      partnerModal.classList.remove("show");
-    }
-
-    function closeJuryModal() {
       document.body.style.overflow = "auto";
       let juryModal = document.getElementById("add-jury-modal");
 
       juryModal.classList.add("hidden");
       juryModal.classList.remove("show");
     }
+
+    function openPartnerModal() {
+      let partnerModal = document.getElementById("add-partner-modal");
+      // document.body.style.overflow = "hidden";
+      $('#success_msg_partner').html('');
+      $('#fail_msg_partner').html('');
+      partnerModal.classList.add("show");
+      partnerModal.classList.remove("hidden")
+    }
+
+    function closePartnerModal() {
+      $('#success_msg_partner').html('');
+      $('#fail_msg_partner').html('');
+      document.body.style.overflow = "auto";
+      let partnerModal = document.getElementById("add-partner-modal");
+
+      partnerModal.classList.add("hidden");
+      partnerModal.classList.remove("show");
+    }
   </script>
 
   <script>
+    //  ADD JURY
     $('#success_msg').html('');
     $('#fail_msg').html('');
     $("#jury_form").submit(function(e) {
@@ -495,6 +508,48 @@
         }
       });
     });
+
+    //  ADD PARTNER
+    $('#success_msg_partner').html('');
+    $('#fail_msg_partner').html('');
+    $("#partner_form").submit(function(e) {
+      let _token = $("[name='_token']").val();
+      let poc_name = $("#poc_name").val();
+      let poc_email = $("#poc_email").val();
+      let business_name = $("#business_name").val();
+      let com_id = $("#com_id").val();;
+      $('.field_error').html('');
+      e.preventDefault();
+      $.ajax({
+        type: "post",
+        url: "{{ url('we/add_partner') }}",
+        data: {
+          _token,
+          poc_name,
+          poc_email,
+          business_name,
+          com_id
+        },
+        success: function(result) {
+          if (result.status == 'error') {
+            $.each(result.error, function(key, val) {
+              $('#' + key + '_error').html(val[0]);
+            });
+          }
+          if (result.status == 'success') {
+            $('#success_msg_partner').html(
+            ` <div class="alert alert-success" role="alert">${result.msg}</div>`);
+            $("#partner_form")[0].reset();
+          } else {
+            $('#fail_msg_partner').html(` <div class="alert alert-danger" role="alert">${result.msg}</div>`);
+            $("#partner_form")[0].reset();
+          }
+        }
+      });
+    });
+
+
+    // ADD PARTNER
   </script>
 @endsection
 
